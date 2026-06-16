@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "sirius",
+    "name": "Sirius Client",
+    "description": "A legitimate PVP utility client focused on performance, cosmetics, and HUD customization.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://sirius-client.dev",
+    "updateUrl": "",
+    "authorList": ["Sirius Team"],
+    "credits": "Sirius Development Team",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
