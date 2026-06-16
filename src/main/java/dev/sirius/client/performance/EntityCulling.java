@@ -4,19 +4,29 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EntityCulling {
 
     private static final Frustum frustum = new Frustum();
+    private static float partialTicks = 0f;
+
+    @SubscribeEvent
+    public void onRenderTick(TickEvent.RenderTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {
+            partialTicks = event.renderTickTime;
+        }
+    }
 
     public static boolean isEntityInFrustum(Entity entity) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.getRenderViewEntity() == null) return true;
 
         Entity viewEntity = mc.getRenderViewEntity();
-        double x = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * getPartialTicks();
-        double y = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * getPartialTicks();
-        double z = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * getPartialTicks();
+        double x = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
+        double y = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * partialTicks;
+        double z = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * partialTicks;
 
         frustum.setPosition(x, y, z);
 
@@ -24,10 +34,6 @@ public class EntityCulling {
         if (bb == null) return true;
 
         return frustum.isBoundingBoxInFrustum(bb);
-    }
-
-    private static float getPartialTicks() {
-        return Minecraft.getMinecraft().timer.renderPartialTicks;
     }
 
     public static boolean shouldRenderEntity(Entity entity) {
