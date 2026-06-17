@@ -1,0 +1,28 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+bin/
+
+# Forge
+run/
+logs/
+eclipse/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Runtime
+*.log
